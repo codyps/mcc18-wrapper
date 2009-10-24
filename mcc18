@@ -1,0 +1,18 @@
+#!/bin/sh
+BASEDIR=`dirname $0`
+
+if [ $(uname) = "CYGWIN_NT-6.0" ]; then
+  WINE=""
+else
+  WINE=wine
+fi
+
+output=$( ${WINE} ${BASEDIR}/mcc18.exe $* | tr -d '\r' |\
+  egrep -v "MPLAB|Days|abstraction" | egrep -v '^$')
+  
+if [ -n "$output" ]; then
+  echo "${output}"
+  exit 1
+else
+  exit 0
+fi

@@ -1,0 +1,49 @@
+.TH MCC18 1
+.SH NAME    \" Section header
+.PP
+ 
+MCC18 \- MicroChip(tm) C compiler for PIC processors
+
+\" Convention:
+\" Underline anything that is typed verbatim - commands, etc.
+.SH SYNOPSIS
+.PP
+.nf 
+.na 
+mcc18 [flags] file.c
+mpasm [flags] file.asm
+mplib [flags] files
+mplink [flags] files
+.ad
+.fi
+
+.SH "DESCRIPTION"
+
+MCC18 is Microchips's commercial compiler for PIC processors,
+distributed only for Windows.
+
+In order to use MCC18 on Unix, you will need an Intel processor and Wine,
+or an Intel PC emulator such as VirtualPC or QEMU.
+
+This port uses wrapper scripts and Wine to make the MCC tools appear native
+on Intel Unix systems.  It should work with any version of MCC18, including
+free student versions available on the Microchip WEB site.
+
+For quick help, just type any of the commands with no arguments.
+
+.SH "SEE ALSO"
+
+Wine(1), sdcc(1)
+
+.SH "BUGS"
+
+The MCC18 system has a 62-character limit for the pathname of any file.
+As a result, you must take care to limit the path length to your
+projects.
+
+.SH AUTHOR
+.nf
+.na
+Jason W. Bacon
+Acadix Consulting, LLC
+

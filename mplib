@@ -1,0 +1,12 @@
+#!/bin/sh
+BASEDIR=`dirname $0`
+
+if [ $(uname) = "CYGWIN_NT-6.0" ]; then
+  WINE=""
+else
+  WINE=wine
+fi
+
+${WINE} ${BASEDIR}/mplib.exe $* | egrep -v '^$'
+
+
