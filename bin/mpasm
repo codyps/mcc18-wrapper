@@ -1,5 +1,12 @@
 #!/bin/sh
-BASEDIR=`dirname $0`
+local EXENAME BASEDIR WINE output
+EXENAME="mpasmwin.exe"
+if [ -x `dirname $0`/$EXENAME ]; then
+	BASEDIR=`dirname $0`
+else
+	BASEDIR="/opt/mcc18/bin"
+fi
+
 
 if [ $(uname) = "CYGWIN_NT-6.0" ]; then
   WINE=""
@@ -7,5 +14,5 @@ else
   WINE=wine
 fi
 
-${WINE} ${BASEDIR}/mpasmwin.exe $* 2> /dev/null
+${WINE} ${BASEDIR}/${EXENAME} $* 2> /dev/null
 

@@ -1,5 +1,11 @@
-#!/bin/sh
-BASEDIR=`dirname $0`
+#!/bin/bash
+#local EXENAME BASEDIR WINE output
+EXENAME="mplink.exe"
+if [ -x `dirname $0`/$EXENAME ]; then
+	BASEDIR=`dirname $0`
+else
+	BASEDIR="/opt/mcc18/bin"
+fi
 
 if [ $(uname) = "CYGWIN_NT-6.0" ]; then
   WINE=""
@@ -7,14 +13,23 @@ else
   WINE=wine
 fi
 
-output=$( ${WINE} ${BASEDIR}/mplink.exe $* | egrep -v '^$' |
-  egrep -v '^MPLINK 3\.90\, Linker' |
-  egrep -v '^Copyright \(c\) 2004 Microchip Technology Inc\.' |
-  egrep -v '^Errors    : 0' |
-  egrep -v '^Warnings  : 0' )
+#output=`${WINE} ${BASEDIR}/${EXENAME} $* | sed 's/\r/\n/'`
+#echo $?
+output=$( ${WINE} ${BASEDIR}/${EXENAME} $* |\
+  egrep -v '^MPLINK 3\.90\, Linker' |\
+  egrep -v '^Copyright \(c\) 2004 Microchip Technology Inc\.' |\
+  egrep -v '^Errors    : 0' |\
+  egrep -v '^Warnings  : 0' |\
+  egrep -v '^MP2COD 3.90, COFF to COD File Converter' |\
+  egrep -v '^MP2HEX 3.90, COFF to HEX File Converter' |\
+  tr -d '\r' |\
+  egrep -v '^$')
+
+if [ ! -z "$output" ]; then
+  echo -E "$output"
+fi
 
 if (echo "${output}" | grep -q 'Errors'); then
-  echo "${output}"
   exit 1
 else
   exit 0
