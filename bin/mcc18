@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 #local EXENAME BASEDIR WINE output
-EXENAME="mcc18.exe"
+EXENAME="$(basename $0).exe"
 if [ -x `dirname $0`/${EXENAME} ]; then
 	BASEDIR=`dirname $0`
 else
@@ -14,12 +14,14 @@ else
 fi
 
 #exec ${WINE} ${BASEDIR}/${EXENAME} $*
-output=$( ${WINE} ${BASEDIR}/${EXENAME} $* | tr -d '\r' |\
-  egrep -v "MPLAB|Days|abstraction" | egrep -v '^$'  )
-  
-if [ -n "$output" ]; then
-  echo -E "${output}"
-  exit 1
-else
-  exit 0
+output=$( ${WINE} ${BASEDIR}/${EXENAME} $*)
+ret=$?
+
+scrub=$(printf "%s" "$output" | tr -d '\r' )
+
+#egrep -v "MPLAB|Days|abstraction" )
+
+if [ -n "$scrub" ]; then
+	printf "%s\n" "$scrub"
 fi
+exit $ret

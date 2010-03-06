@@ -1,18 +1,1 @@
-#!/bin/sh
-local EXENAME BASEDIR WINE output
-EXENAME="mplib.exe"
-if [ -x `dirname $0`/$EXENAME ]; then
-	BASEDIR=`dirname $0`
-else
-	BASEDIR="/opt/mcc18/bin"
-fi
-
-if [ $(uname) = "CYGWIN_NT-6.0" ]; then
-  WINE=""
-else
-  WINE=wine
-fi
-
-${WINE} ${BASEDIR}/${EXENAME} $* | egrep -v '^$'
-
-
+./mcc18

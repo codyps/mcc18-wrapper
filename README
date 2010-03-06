@@ -1,5 +1,6 @@
 Wraps up the mcc18 compiler binaries so that they preform better in makefiles and other build systems.
 
 - Uses wine if necissary
-- Exit codes returned semi-correctly
+- Exit codes returned correctly
 - Junk output discarded
+- Convert line endings
