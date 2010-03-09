@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #local EXENAME BASEDIR WINE output
 EXENAME="mplink.exe"
 if [ -x `dirname $0`/$EXENAME ]; then
@@ -18,15 +18,15 @@ fi
 output=$( ${WINE} ${BASEDIR}/${EXENAME} $*)
 ret=$?
 
-scrub=$(printf "%s" "$output" |\
+scrub=$(printf "%s" "$output" | tr -d '\r' | \
   egrep -v '^MPLINK 3\.90\, Linker' |\
   egrep -v '^Copyright \(c\) 2004 Microchip Technology Inc\.' |\
   egrep -v '^Errors    : 0' |\
   egrep -v '^Warnings  : 0' |\
   egrep -v '^MP2COD 3.90, COFF to COD File Converter' |\
-  egrep -v '^MP2HEX 3.90, COFF to HEX File Converter' |\
-  tr -d '\r' |\
-  egrep -v '^$')
+  egrep -v '^MP2HEX 3.90, COFF to HEX File Converter' )
 
-printf "%s" $scrub
+if [ -n "$scrub" ]; then
+	printf "%s\n" "$scrub"
+fi
 exit $ret
